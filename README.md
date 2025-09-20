@@ -28,7 +28,6 @@ The sample application is hosted in GitHub:
 | `variables.tf`     | Defines input variables for EC2 instance type, AWS region, key pair, and deployment stage. |
 | `outputs.tf`       | Provides outputs like EC2 public IP, public DNS, and app URL. |
 | `terraform.tfvars` | Optional: overrides default variable values (e.g., stage, key pair, region). |
-| `.gitignore`       | Excludes `.terraform/`, Terraform state files, and logs from Git. |
 
 ---
 
