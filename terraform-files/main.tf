@@ -21,10 +21,17 @@ resource "local_file" "private_key" {
   file_permission = "0600"
 }
 
-# Security group to allow HTTP
+# Security group to allow HTTP and SSH
 resource "aws_security_group" "app_sg" {
-  name        = "app_sg"
-  description = "Allow HTTP"
+  name        = "app_sggg"
+  description = "Allow HTTP and SSH"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 80
@@ -40,7 +47,6 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 # EC2 instance
 resource "aws_instance" "app_server" {
   ami                    = "ami-0a313d6098716f372"  # Ubuntu 22.04
