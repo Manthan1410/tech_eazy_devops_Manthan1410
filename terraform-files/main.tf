@@ -2,6 +2,25 @@ provider "aws" {
   region = var.aws_region
 }
 
+# Generate a new RSA keypair
+resource "tls_private_key" "app_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Create AWS Key Pair using generated public key
+resource "aws_key_pair" "app_key" {
+  key_name   = var.key_name
+  public_key = tls_private_key.app_key.public_key_openssh
+}
+
+# Save private key locally
+resource "local_file" "private_key" {
+  content         = tls_private_key.app_key.private_key_pem
+  filename        = "${path.module}/app_key.pem"
+  file_permission = "0600"
+}
+
 # Security group to allow HTTP
 resource "aws_security_group" "app_sg" {
   name        = "app_sg"
@@ -24,9 +43,9 @@ resource "aws_security_group" "app_sg" {
 
 # EC2 instance
 resource "aws_instance" "app_server" {
-  ami           = "ami-0a313d6098716f372"  # Ubuntu 22.04
-  instance_type = var.instance_type
-  key_name      = var.key_name
+  ami                    = "ami-0a313d6098716f372"  # Ubuntu 22.04
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.app_key.key_name
   vpc_security_group_ids = [aws_security_group.app_sg.id]
 
   user_data = <<-EOF
@@ -36,7 +55,6 @@ resource "aws_instance" "app_server" {
 
               cd /home/ubuntu
 
-              # Stage-based deploy script
               cat << 'EOT' > deploy.sh
               #!/bin/bash
               STAGE=$1
@@ -52,16 +70,13 @@ resource "aws_instance" "app_server" {
                 exit 1
               fi
 
-              # Clone your GitHub repo
               git clone https://github.com/Manthan1410/tech_eazy_devops_Manthan1410.git app
               cd app || exit
 
-              # Copy stage config if exists
               if [ -f "../$CONFIG_FILE" ]; then
                 cp "../$CONFIG_FILE" ./application.properties
               fi
 
-              # Build and run the app
               mvn clean package
               nohup java -jar target/hellomvc-0.0.1-SNAPSHOT.jar --server.port=80 > app.log 2>&1 &
               echo "Application started on port 80"
