@@ -57,7 +57,9 @@ resource "aws_instance" "app_server" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
-              sudo apt-get install -y openjdk-17-jdk maven git
+              sudo apt-get install -y openjdk-17-jdk
+              sudo apt-get install -y maven
+              sudo apt-get install -y git
 
               cd /home/ubuntu
 
