@@ -48,3 +48,10 @@ Set your AWS credentials as environment variables:
 export AWS_ACCESS_KEY_ID="YOUR_KEY"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET"
 export AWS_DEFAULT_REGION="us-east-1"  # You can override with a different region
+
+
+If you are unable to connect directly to the EC2 instance created by Terraform (for example, if it does not have a public IP),
+```bash
+ssh -i app_key.pem ubuntu@<APP_PRIVATE_IP> -v
+then run the above command on other instance to connect the ec2 instance created by terraform
+
