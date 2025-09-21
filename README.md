@@ -48,15 +48,16 @@ Set your AWS credentials as environment variables:
 export AWS_ACCESS_KEY_ID="YOUR_KEY"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET"
 export AWS_DEFAULT_REGION="us-east-1"  # You can override with a different region.
+```
 
+---
 
-Accessing the Instance via External SSH
+## **Accessing the Instance via External SSH**
 
-If the Terraform-created EC2 instance does not have a public IP or you cannot connect directly, you can still access it using external SSH through another EC2 instance (bastion/jump host) in the same VPC.
+If the Terraform-created EC2 instance does not have a public IP or you cannot connect directly, you can still access it using **external SSH** through another EC2 instance (bastion/jump host) in the same VPC.
 
-ssh -i app_key.pem ubuntu@<APP_PRIVATE_IP> -v
+```bash
+ssh -i app_key.pem ubuntu@<APP_PUBLIC_IP> -v
+```
 
-
- If you executed terraform apply from an EC2 instance inside AWS, you can also use that machine to SSH into the Terraform-created instance using its private IP.
-
-
+If you executed `terraform apply` **from an EC2 instance inside AWS**, you can also use that machine to SSH into the Terraform-created instance using its private IP.  
