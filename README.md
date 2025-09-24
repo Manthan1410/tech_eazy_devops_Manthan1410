@@ -46,18 +46,23 @@ Follow these steps to deploy the EC2 instance, set up IAM roles, and upload logs
 export AWS_ACCESS_KEY_ID="your_aws_access_key_id"
 export AWS_SECRET_ACCESS_KEY="your_aws_secret_access_key"
 export AWS_DEFAULT_REGION="us-east-1"
-
+```
 2. Initialize Terraform
+```
 terraform init
-
+```
 3. Plan Terraform Deployment
+```
 terraform plan -var="bucket_name=my-task2-logs-bucket"
-
+```
 4. Apply Terraform Deployment
+```
 terraform apply -auto-approve -var="bucket_name=my-task2-logs-bucket"
-
-5. Verify EC2 Instance
-ssh -i app_key.pem ubuntu@<EC2_PUBLIC_IP>
-
-6. Upload Logs
+```
+5. Upload Logs
+```
+sudo chmod +x /upload-logs.sh
+```
+OR
+```
 bash upload-logs.sh
