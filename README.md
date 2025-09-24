@@ -62,7 +62,4 @@ terraform apply -auto-approve -var="bucket_name=my-task2-logs-bucket"
 5. Upload Logs
 ```
 sudo chmod +x /upload-logs.sh
-```
-OR
-```
 bash upload-logs.sh
