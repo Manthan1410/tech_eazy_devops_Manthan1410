@@ -1,10 +1,10 @@
 resource "aws_iam_role" "s3_readonly_role" {
-  name = "S3ReadOnlyRole"
+  name = "S3ReadOnlyRole"  
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action    = "sts:AssumeRole"
+      Action    = "sts:AssumeRole" 
       Effect    = "Allow"
       Principal = { Service = "ec2.amazonaws.com" }
     }]
